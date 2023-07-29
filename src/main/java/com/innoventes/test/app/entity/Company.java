@@ -47,5 +47,6 @@ public class Company extends BaseEntity {
 	private Integer strength;
 	
 	@Column(name = "website_url")
+	@Null(message = "WebSiteURL must be null if not provided")
 	private String webSiteURL;
 }
