@@ -10,6 +10,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.*;
 
+import com.innoventes.test.app.util.EvenNumberOrZero;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.AllArgsConstructor;
@@ -44,6 +45,7 @@ public class Company extends BaseEntity {
 	@Column(name = "strength")
 	@PositiveOrZero(message = "Strength should be a positive number or zero")
 	@Null(message = "Strength must be null if not provided")
+	@EvenNumberOrZero(message = "Only even numbers or zero are allowed for strength")
 	private Integer strength;
 	
 	@Column(name = "website_url")
