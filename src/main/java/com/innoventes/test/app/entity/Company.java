@@ -49,4 +49,11 @@ public class Company extends BaseEntity {
 	@Column(name = "website_url")
 	@Null(message = "WebSiteURL must be null if not provided")
 	private String webSiteURL;
+
+	@Pattern(regexp = "^(?:[a-zA-Z]{2}\\\\d{2}[eEnN])?$",
+			message = "Invalid CompanyCode format")
+	@Size(min = 5, message = "companyCode must be at least 5 characters long")
+	@Null(message = "CompanyCode must be null if not provided")
+	@Column(name = "company_code", unique = true)
+	private String companyCode;
 }
