@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -31,6 +33,8 @@ public class Company extends BaseEntity {
 	private Long id;
 
 	@Column(name = "company_name")
+	@NotBlank(message = "Company name is mandatory")
+	@Size(min = 5, message = "Company name must be at least 5 characters long")
 	private String companyName;
 
 	@Column(name = "email")
