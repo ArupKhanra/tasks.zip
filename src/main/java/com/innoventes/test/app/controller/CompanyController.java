@@ -43,9 +43,9 @@ public class CompanyController {
 	@GetMapping("/companies")
 	public ResponseEntity<List<CompanyDTO>> getAllCompanies() {
 		List<Company> companyList = companyService.getAllCompanies();
-		
+
 		List<CompanyDTO> companyDTOList = new ArrayList<CompanyDTO>();
-		
+
 		for (Company entity : companyList) {
 			companyDTOList.add(companyMapper.getCompanyDTO(entity));
 		}
@@ -85,6 +85,19 @@ public class CompanyController {
 
 	public String getMessage(String exceptionCode) {
 		return messageSource.getMessage(exceptionCode, null, LocaleContextHolder.getLocale());
+	}
+
+	/**
+	 * Get company details by passing the company ID
+	 * @param id Company ID
+	 * @return ResponseEntity with status ok and result in body
+	 * @author arup.khanra
+	 * */
+	@GetMapping(value = "/companies/{id}")
+	public ResponseEntity<CompanyDTO> getCompanyById(@PathVariable(value = "id") Long id){
+		Company result = companyService.getCompanyById(id);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
+		return ResponseEntity.status(HttpStatus.OK).location(location).body(companyMapper.getCompanyDTO(result));
 	}
 
 }
