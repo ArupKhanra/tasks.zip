@@ -100,4 +100,15 @@ public class CompanyController {
 		return ResponseEntity.status(HttpStatus.OK).location(location).body(companyMapper.getCompanyDTO(result));
 	}
 
+	/**
+	 * Get company details by passing the company code
+	 * @param companyCode Company code
+	 * @return ResponseEntity with status ok and result in body
+	 * @author arup.khanra
+	 * */
+	@GetMapping(value = "/companies/{companyCode}")
+	public ResponseEntity<CompanyDTO> getCompanyByCompanyCode(@PathVariable(value = "companyCode") String companyCode){
+		Company result = companyService.getCompanyByCompanyCode(companyCode);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
+		return ResponseEntity.status(HttpStatus.OK).location(location).body(companyMapper.getCompanyDTO(result));	}
 }

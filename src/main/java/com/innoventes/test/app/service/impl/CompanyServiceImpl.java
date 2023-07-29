@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.innoventes.test.app.dto.CompanyDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -61,5 +62,13 @@ public class CompanyServiceImpl implements CompanyService {
 				.orElseThrow(() -> new ResourceNotFoundException(
 					String.format(serviceHelper.getLocalizedMessage(ApplicationErrorCodes.COMPANY_NOT_FOUND), id),
 					ApplicationErrorCodes.COMPANY_NOT_FOUND));
+	}
+
+	@Override
+	public Company getCompanyByCompanyCode(String companyCode) {
+		return Optional.of(companyRepository.getCompanyByCompanyCode(companyCode))
+				.orElseThrow(() -> new ResourceNotFoundException(
+						String.format(serviceHelper.getLocalizedMessage(ApplicationErrorCodes.COMPANY_NOT_FOUND), companyCode),
+						ApplicationErrorCodes.COMPANY_NOT_FOUND));
 	}
 }

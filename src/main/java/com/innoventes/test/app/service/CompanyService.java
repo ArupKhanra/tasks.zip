@@ -2,6 +2,7 @@ package com.innoventes.test.app.service;
 
 import java.util.List;
 
+import com.innoventes.test.app.dto.CompanyDTO;
 import com.innoventes.test.app.entity.Company;
 import com.innoventes.test.app.exception.ValidationException;
 
@@ -16,4 +17,7 @@ public interface CompanyService {
 	void deleteCompany(Long id);
 
 	Company getCompanyById(Long id);
+
+	Company getCompanyByCompanyCode(String companyCode);
+
 }
