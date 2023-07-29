@@ -44,7 +44,7 @@ public class CompanyController {
 	public ResponseEntity<List<CompanyDTO>> getAllCompanies() {
 		List<Company> companyList = companyService.getAllCompanies();
 
-		List<CompanyDTO> companyDTOList = new ArrayList<CompanyDTO>();
+		List<CompanyDTO> companyDTOList = new ArrayList<>();
 
 		for (Company entity : companyList) {
 			companyDTOList.add(companyMapper.getCompanyDTO(entity));
