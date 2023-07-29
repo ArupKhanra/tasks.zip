@@ -8,10 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Null;
-import javax.validation.constraints.PositiveOrZero;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -40,6 +37,8 @@ public class Company extends BaseEntity {
 	private String companyName;
 
 	@Column(name = "email")
+	@Email(message = "Please provide valid email!")
+	@NotBlank(message = "Email is mandatory")
 	private String email;
 	
 	@Column(name = "strength")
