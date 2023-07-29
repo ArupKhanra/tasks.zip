@@ -1,24 +1,21 @@
 package com.innoventes.test.app.controller;
 
+import java.beans.PropertyDescriptor;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.innoventes.test.app.dto.CompanyDTO;
@@ -110,5 +107,42 @@ public class CompanyController {
 	public ResponseEntity<CompanyDTO> getCompanyByCompanyCode(@PathVariable(value = "companyCode") String companyCode){
 		Company result = companyService.getCompanyByCompanyCode(companyCode);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
-		return ResponseEntity.status(HttpStatus.OK).location(location).body(companyMapper.getCompanyDTO(result));	}
+		return ResponseEntity.status(HttpStatus.OK).location(location).body(companyMapper.getCompanyDTO(result));
+	}
+
+	@PatchMapping("/companies/{companyId}")
+	public ResponseEntity partialUpdateCompany(
+			@PathVariable(value = "companyId") Long companyId,
+			@Valid @RequestBody CompanyDTO companyDTO) {
+		// Fetch the existing Company entity from the database using companyId
+		Company existingCompany = companyService.getCompanyById(companyId);
+
+		if (existingCompany == null) {
+			return ResponseEntity.notFound().build();
+		}
+
+		// Update the Company entity with the non-null values from the CompanyDTO
+		BeanUtils.copyProperties(companyDTO, existingCompany, getNullPropertyNames(companyDTO));
+
+		// Perform additional validation (Task 6) on the updated fields
+		// (e.g., validate the updated webSiteURL and strength fields if they exist)
+
+		// Save the updated Company entity back to the database
+		// Implement your logic to save the Company entity back to the database.
+
+		return ResponseEntity.ok("Partial Update Successfully..!");
+	}
+
+	// Helper method to get the names of null properties from the CompanyDTO
+	private String[] getNullPropertyNames(CompanyDTO companyDTO) {
+		BeanWrapper beanWrapper = new BeanWrapperImpl(companyDTO);
+		List<String> nullPropertyNames = new ArrayList<>();
+		for (PropertyDescriptor propertyDescriptor : beanWrapper.getPropertyDescriptors()) {
+			String propertyName = propertyDescriptor.getName();
+			if (beanWrapper.getPropertyValue(propertyName) == null) {
+				nullPropertyNames.add(propertyName);
+			}
+		}
+		return nullPropertyNames.toArray(new String[0]);
+	}
 }
