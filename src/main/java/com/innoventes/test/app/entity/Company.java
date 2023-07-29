@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -41,6 +43,8 @@ public class Company extends BaseEntity {
 	private String email;
 	
 	@Column(name = "strength")
+	@PositiveOrZero(message = "Strength should be a positive number or zero")
+	@Null(message = "Strength must be null if not provided")
 	private Integer strength;
 	
 	@Column(name = "website_url")
